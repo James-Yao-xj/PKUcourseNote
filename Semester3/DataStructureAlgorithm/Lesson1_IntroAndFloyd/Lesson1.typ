@@ -8,7 +8,7 @@
   margin: (top: 2cm, bottom: 2cm, left: 1cm, right: 1cm),
   header: context [
     #text(10pt, black)[
-      #align(center)[数据结构与算法]]
+      #align(center)[数据结构与算法 第一讲]]
     #line(length: 100%, stroke: gray)
   ],
    footer: context [
