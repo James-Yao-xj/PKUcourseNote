@@ -1,0 +1,131 @@
+#import "@preview/ctyp:0.3.0": ctyp
+#let (ctypset, cjk) = ctyp()
+#let (song, hei, kai, fang) = cjk
+#show: ctypset
+
+#set page(
+  paper: "a4",
+  margin: (top: 2cm, bottom: 2cm, left: 1cm, right: 1cm),
+  header: context [
+    #text(10pt, black)[
+      #align(center)[离散数学基础]]
+    #line(length: 100%, stroke: gray)
+  ],
+   footer: context [
+    #set align(center)
+    #counter(page).display("1")
+  ]
+)
+
+#set heading(numbering: "1.")
+
+#align(center)[
+  #text(size: 24pt, weight: "bold")[离散数学基础\ 第三讲]\
+  #v(10pt)
+  #text(size: 16pt)[_2026年9月15日_]
+]
+
+= 有序对与笛卡尔积
+
+例：设$A, B, C, D$为任意集合，判断下列陈述是否正确，并说明理由。
+- 若$A times B = A times C => B = C$
+- $A - (B times C) = (A -B) times (A- C)$
+- $A = B, C = D, => A times C = B times D$
+- $exists A, s.t. A subset.eq A times A. "ans:" A = emptyset "is possible"$
+
+= 二元关系
+*定义*
+
+一个集合满足以下任一条件时，称其为二元关系，简称关系，记作$R:$
+- 集合非空，且元素都是有序对
+- 集合为空集
+
+若$chevron.l x,y chevron.r in R, "记作" x R y$，若$chevron.l x,y chevron.r in.not R$，记作$ x "我也不知道怎么打出来，R上面加一个斜线划去"  y$
+
+$A times B$的任何子集定义的二元关系，称为从A到B的二元关系。
+
+空关系、全域关系、恒等关系
+
+恒等关系：$I_A = {chevron.l x,x chevron.r | x in A}$
+
+全域关系：$E_A = {chevron.l x,y chevron.r | x in A, y in A}$
+
+*小于等于关系*
+
+设$A in RR, L_A = {chevron.l x,y chevron.r | x,y in A, x <= y}$
+
+*整除关系*
+
+设$A subset.eq ZZ - {0}, D_A = {chevron.l x,y chevron.r | x,y in A, x | y}$
+
+== 关系矩阵：
+
+$
+r_(i j) = 1, x_i R x_j\
+r_(i j) = 0, "else." 
+$
+
+$
+MM_R = (r_(i j))_(n times n), "称这样的布尔矩阵为关系矩阵"
+$
+
+
+== 关系图
+
+一个有向图。#footnote[有向图的原因是，$chevron.l x, y chevron.r $存在二元关系不代表$chevron.l y, x chevron.r $存在二元关系。]
+
+
+
+= 关系的运算
+
+*定义域：所有有序对的第一元素构成的集合*
+
+$
+"dom "R = { x | exists y, s.t. chevron.l x,y chevron.r in R}
+$
+
+*值域：所有有序对的第二元素构成的集合*
+
+$
+"ran "R = { y | exists x, s.t. chevron.l x,y chevron.r in R}
+$
+
+*域*：定义域与值域的并集。
+$
+"fld "R = "dom "R union "ran "R
+$
+
+*逆关系*:交换每一个有序对的两个元素，得到$R$的逆关系
+
+$
+R ^ (-1) = { chevron.l y,x chevron.r | chevron.l x,y chevron.r in R}
+$
+
+*复合*：
+
+- 右复合：F与G的复合（G对F右复合）记作$F bullet.stroked G$，定义为
+$
+F bullet.stroked G = { chevron.l x,z chevron.r | exists y, s.t. chevron.l x,y chevron.r in F and chevron.l y,z chevron.r in G}
+$
+
+*关系矩阵的计算*
+
+乘法使用布尔运算的“且”，加法使用布尔运算的“或”。
+
+
+*定理*
+
+$exists s, t in NN^*, s.t. R^s = R^t$
+
+类比矩阵的循环分解，以有涯逐无涯，殆已！！！
+
+
+
+
+
+
+
+
+
+
+
