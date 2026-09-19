@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 275">
+  <defs><marker id="c" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#516978"/></marker></defs>
+  <g fill="none" stroke="#516978" stroke-width="1.6" marker-end="url(#c)"><path d="M55 225 H490"/><path d="M55 225 V25"/></g>
+  <path d="M75 55 C145 74 245 135 455 215" fill="none" stroke="#d05a34" stroke-width="3"/>
+  <path d="M90 205 C135 133 210 92 345 72" fill="none" stroke="#1f77b4" stroke-width="3"/>
+  <path d="M135 215 C185 148 270 112 405 95" fill="none" stroke="#76a9d1" stroke-width="2.4"/>
+  <circle cx="229" cy="111" r="5" fill="#173f5f"/><line x1="229" y1="111" x2="229" y2="225" stroke="#778b95" stroke-dasharray="6 5"/><line x1="55" y1="111" x2="229" y2="111" stroke="#778b95" stroke-dasharray="6 5"/>
+  <g fill="#334955" font-family="Arial" font-size="16"><text x="475" y="248">x</text><text x="32" y="32">y</text><text x="415" y="202" fill="#d05a34">PPF</text><text x="340" y="75" fill="#1f77b4">IC₂</text><text x="400" y="96" fill="#76a9d1">IC₁</text><text x="238" y="104">E</text></g>
+</svg>
