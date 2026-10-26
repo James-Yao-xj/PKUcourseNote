@@ -1,0 +1,13 @@
+#include "Lesson1.typ"
+#pagebreak(weak: true)
+#include "Lesson2.typ"
+#pagebreak(weak: true)
+#include "Lesson3.typ"
+#pagebreak(weak: true)
+#include "Lesson6.typ"
+#pagebreak(weak: true)
+#include "Lesson7.typ"
+#pagebreak(weak: true)
+#include "Lesson8.typ"
+#pagebreak(weak: true)
+#include "Lesson9.typ"

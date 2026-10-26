@@ -96,7 +96,7 @@ Breaking the sorting barrier for directed single source shortest path
 $
   bold(A) = {a,{b,c},d, {{d}}} \
 
-  a in bold(A), {b,c} in bold(A), d in bold(A), {{d}} in bold(A), d in.not bold(A), {d} in.not bold(A)
+  a in bold(A), {b,c} in bold(A), d in bold(A), {{d}} in bold(A), {d} in.not bold(A), {{d}} in bold(A)
 $
 
 为了体系上的严谨，我们不考虑 $bold(A)in bold(A)$这种情况。
@@ -133,7 +133,7 @@ $
 
 并集： $A union B = {x | x in A or x in B}$
 
-相对补集： $A minus B = {x | x in A and x in.not B}$称为A相对于B的相对补集。
+相对补集： $A minus B = {x | x in A and x in.not B}$称为从 A 中去掉 B 的差集（B 在 A 中的相对补集）。
 
 $
   union.big_(i = 1) ^n A_i = {x | exists i, 1 <= i <= n and x in A_i} \

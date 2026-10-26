@@ -15,7 +15,21 @@
 - 数据结构与算法
 - 离散数学基础
 - 信息学中的概率统计
+- 经济学原理
+- 集合论与图论
 
 ## 关于排版语言
 
 欢迎使用typst！详情参考 https://typst.app/ 。我或许会在笔记成熟之后上传pdf版本，但是这样又会被骂往仓库里面扔一摩尔多二进制文件。@Snowy117
+
+## 第三学期整理入口
+
+[总目录](Semester3/main.typ) · [课件与笔记对应表](Semester3/课件对应表.typ)
+
+各课程目录中的 `main.typ` 为合订入口，单讲文件保留独立编译方式。新增与修订沿用原课程的 Typst 样式。
+
+从 `CourseNote` 目录编译时，以该目录为资源根，例如：
+
+```sh
+typst compile --root . Semester3/ICS/main.typ /tmp/ICS-notes.pdf
+```

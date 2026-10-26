@@ -145,15 +145,15 @@ $
 
 若集合列收敛，则上下极限相等。
 
-*命题* 
+*命题*
 
-${A_n}$是${B_n}, {C_n}$的并，那么
+若 $A_n=B_n union C_n$，则
+$ limsup A_n=(limsup B_n) union (limsup C_n), $
+$ (liminf B_n) union (liminf C_n) subset.eq liminf A_n. $
+第二式一般只是包含。例如 $B_n$ 在奇数项等于 ${x}$、偶数项为空，$C_n$ 相反，则各自下极限为空，但 $A_n={x}$ 恒定。
 
-$
-overline(lim_(n -> oo )) A_n = overline(lim_(n -> oo)) B_n union.big overline(lim_(n -> oo)) C_n \
-
-underline(lim_(n -> oo)) A_n = underline(lim_(n -> oo)) B_n inter.big underline(lim_(n -> oo)) C_n
-$
+对逐项交则有
+$ liminf(B_n inter C_n)=(liminf B_n) inter (liminf C_n). $
 
 *命题*
 
@@ -228,3 +228,10 @@ $
 
 
 
+
+
+= 集族疑问的解答
+
+在纯集合论中，自然数本身也用集合表示。因此 $union.big cal(B)={1,2,3,emptyset}$ 仍是一个集合，其元素仍是集合；又因它含有空集，$inter.big union.big cal(B)=emptyset$。
+
+若在含有原子对象的朴素模型中把 1、2、3 当作非集合，则广义交的适用范围不同。这里沿用本课“所有对象都是集合”的解释。

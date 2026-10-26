@@ -32,19 +32,20 @@
 $
 overline(lim_(n -> oo) A_n) = inter.big_(n = 1) ^ oo union.big_(k = n) ^ oo A_k \
 
-underline(lim_(n -> oo) A_n) = union.big_(n = 1) ^ oo inter.big_(k = n) ^ oo A_k  #h(2em)^#footnote[上下极限那个横线画在哪里参考教材，笔记中的内容不准确规范。]
+underline(lim_(n -> oo) A_n) = union.big_(n = 1) ^ oo inter.big_(k = n) ^ oo A_k
 $
 
 *我们将集合中的元素都看作集合，那么就可以正常进行广义交并*
 
-= 
+= 有序组与关系运算
 
 == 二元组和多元组：
 
 $chevron.l a, b chevron.r => {{a}, {a, b}} "当"a = b, => {{a}}$
 
-有序$n$元组：
-$chevron.l a_1, a_2, ..., a_n chevron.r => {{a_1}, {a_1, a_2}, ..., {a_1, a_2, ..., a_n}}$
+有序 $n$ 元组可递归编码：先用 Kuratowski 有序对，再令
+$ chevron.l a_1,...,a_n chevron.r=chevron.l chevron.l a_1,...,a_(n-1) chevron.r,a_n chevron.r. $
+只用逐步累计集合 ${a_1},{a_1,a_2},...$ 会丢掉重复元素的次序，例如 $(a,a,b)$ 与 $(a,b,b)$ 无法据此可靠区分。
 
 == 卡氏积
 
@@ -123,23 +124,19 @@ $
 R bullet.stroked S = { chevron.l a, c chevron.r | exists b in B, s.t. chevron.l a, b chevron.r in R and chevron.l b, c chevron.r in S }
 $
 
-逆序：设$R subset A times B, S subset B times C$
-
-$
-R bullet.stroked S = {chevron.l x, y chevron.r | exists z in B, s.t. chevron.l x, z chevron.r in S and chevron.l z, y chevron.r in R }
-$
+本文固定右复合：先作用左侧关系，再作用右侧关系。若改用函数通常的左复合记号，必须同时改变表达式的顺序；两种约定不能在同一公式中混用。
 
 == 幂运算
 
 Def 设$R subset.eq A times A, (A != emptyset), n in NN$
 
 定义$R^n$如下：
-+ $R^0 = I_A, R^1 = R$ question: 为什么这个一次幂需要单独拿出来定义?
++ $R^0 = I_A, R^1 = R$；一次幂也可由递推和恒等关系直接推出。
 + $R^n = R^(n-1) bullet.stroked R, n >= 1$
 
 *Theorem*
 
-$R in A times A, forall m,n in NN$
+$R subset.eq A times A, forall m,n in NN$
 + $R^m bullet.stroked R^n = R^(m+n)$
 + $(R^m)^n = R^(m n)$
 
@@ -152,7 +149,7 @@ $
 设$R subset.eq A times A$若存在$s, t in NN,  s.t. s < t and R^s = R^t$，则
 + $R^(s + k) = R^(t + k)$
 + $R ^ (s+k(t - s)) = R^s$
-+ $R^oo = union.big_(n = 1) ^ oo R ^ n = union.big_(i = 1) ^ (t - 1) R ^ i$
++ $R^oo = union.big_(n = 1) ^ oo R ^ n = union.big_(i = 1) ^ t R ^ i$
 
 这几条性质理解可以类比矩阵的循环分解与一个循环基。
 

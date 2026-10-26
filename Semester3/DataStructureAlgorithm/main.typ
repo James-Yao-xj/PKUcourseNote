@@ -1,2 +1,9 @@
-#include "Lesson1_IntroAndFloyd/Lesson1.typ"
-#include "Lesson2/Lesson2.typ"
+#include "Lesson3/Lesson3.typ"
+#pagebreak(weak: true)
+#include "Lesson4/Lesson4.typ"
+#pagebreak(weak: true)
+#include "Lesson5/Lesson5.typ"
+#pagebreak(weak: true)
+#include "Lesson6/Lesson6.typ"
+#pagebreak(weak: true)
+#include "DevEnvironment.typ"
