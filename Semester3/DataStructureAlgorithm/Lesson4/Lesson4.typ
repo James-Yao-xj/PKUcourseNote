@@ -214,3 +214,34 @@ while i < n and j < m:
 若 $A B=B A$ 且 $abs(A)>=abs(B)>0$，比较等式前 $abs(B)$ 个字符，可知 $A=B C$。约去共同前缀 $B$ 后得 $C B=B C$。对长度之和作归纳，最终得到 $A=U^r,B=U^s$；反向显然成立。空串情形单独成立。
 
 循环移位用“等长且出现在双倍串中”判定。如 `arc` 出现在 `carcar` 的下标 1，所以是 `car` 的循环移位。这里移动的是切口，顺序保持，不能改成先将字符串倒序。
+
+= 补充例：手工构造前缀函数
+
+模式 `ababaca` 的前缀函数为 `[0,0,1,2,3,0,1]`。读到下标 4 的 a 时，前缀 `ababa` 的最长真边界为 `aba`，长度 3；下标 5 为 c，原本想把边界扩到 `abab`，但 c 与 b 不同。先沿失败链从 3 退到 `pi[2]=1`，仍与 b 不同，再退到 `pi[0]=0`，与 a 也不同，故该位置为零。下标 6 的 a 重新形成长度 1 的边界。
+
+构造的基本步骤为：
+```cpp
+// Return the longest proper border length for each prefix.
+vector<int> prefix_function(const string& pattern) {
+    vector<int> pi(pattern.size());
+    for (int i = 1; i < static_cast<int>(pattern.size()); ++i) {
+        int border = pi[i - 1];
+        while (border > 0 && pattern[i] != pattern[border]) {
+            border = pi[border - 1];
+        }
+        if (pattern[i] == pattern[border]) ++border;
+        pi[i] = border;
+    }
+    return pi;
+}
+```
+
+失败时只尝试更短的已有边界，因为任何可延长的候选前缀都必须先是前一段的后缀。每次 border 增加最多 1，回退总量不超过已增加总量，所以预处理是线性时间。
+
+== 补充例：重叠匹配不能直接清零
+
+在 `aaaaa` 中找 `aaa`，所有起点为 0、1、2。找到第一次后，已匹配后缀 `aa` 仍是模式前缀，应把已匹配长度退为 `pi[2]=2`，继续读下一个字符；若直接清零，会漏掉重叠结果。本文前面的返回语句用于“找第一次”，改为“找全部”时还需明确这一成功后的续接规则。
+
+== 补充例：子串按位置计数与按内容计数
+
+`aaa` 有六个非空位置区间：三个长度 1、两个长度 2、一个长度 3；但不同内容只有 `a`、`aa`、`aaa` 三种。$n(n+1)/2$ 来自选择区间的左右端点，未执行按内容去重。取 `abc` 时六个位置区间恰好各不相同，才同时得到六种内容。

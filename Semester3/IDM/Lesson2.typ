@@ -27,9 +27,9 @@
 
 = 集合运算的性质
 
-$bold(A) inter bold(B) subset bold(A), bold(A) inter bold(B) subset bold(B)$
+$bold(A) inter bold(B) subset.eq bold(A), bold(A) inter bold(B) subset.eq bold(B)$
 
-$bold(A) subset bold(A) union bold(B), bold(B) subset bold(A) union bold(B)$
+$bold(A) subset.eq bold(A) union bold(B), bold(B) subset.eq bold(A) union bold(B)$
 
 == 例题
 
@@ -79,7 +79,7 @@ $
 
 集合之间的关系和初级运算可以使用Venn图来表示。
 
-这是小学奥数的内容，在此略去。
+计算时先明确交集是否包含更高重交，再将重叠区域拆为互不相交的区域。下面用容斥和具体分区同时核对。
 
 $
 abs(overline(bold(A_1)) inter overline(bold(A_2)) inter ... inter overline(bold(A_n)) )= abs(bold(S)) - sum_(i = 1) ^ n abs(bold(A_i)) + sum_(1 <= i < j <= n) abs(bold(A_i) inter bold(A_j)) - sum_(1 <= i < j < k <= n) abs(bold(A_i) inter bold(A_j) inter bold(A_k)) + ... + (-1)^n abs(bold(A_1) inter bold(A_2) inter ... inter bold(A_n))
@@ -300,3 +300,17 @@ $ abs(B inter C)=floor(1000/24)=41, quad abs(A inter B inter C)=floor(1000/120)=
 $ D_n=sum_(k=0)^n (-1)^k binom(n,k)(n-k)!
  =n!sum_(k=0)^n (-1)^k/k!. $
 例如据公式算 $D_3=6-6+3-1=2$，对应循环错位 231、312；$D_4=24-24+12-4+1=9$。这里 n 重交的元素数为 $0!=1$，因为“所有人都取对”恰好一种方式。
+
+= 补充例：“至少一个”“恰好一个”“恰好两个”
+
+70 人的三个兴趣集合人数为 35、28、20，两两交人数为 10、8、6，三重交为 3。两两交均包含三重交。至少参加一项的人数为 $35+28+20-10-8-6+3=62$，三项都不参加的有 8 人。
+
+恰好两项应从每个两两交减去三重交，共 $(10-3)+(8-3)+(6-3)=15$。恰好一项为
+$ (35+28+20)-2(10+8+6)+3 dot 3=44. $
+一个恰在两集合中的人先被数两次，再减两次，最后贡献零；三重交中每人先数三次、再减六次、最后加三次，也贡献零。检验 $44+15+3+8=70$，所有互斥分区总和正确。
+
+== 补充推导：错排的递推
+
+固定信纸 1，它可以去 n−1 个其他信封之一 j。若信纸 j 回到信封 1，形成二循环，剩余为 n−2 张错排，有 $D_(n-2)$ 种；若信纸 j 不去信封 1，则在 1 所在的更长循环中删去 1，把原来送入信封 1 的那张纸改送 j，得到 n−1 个对象的错排，有 $D_(n-1)$ 种。两种变换都能逆向恢复，故
+$ D_n=(n-1)(D_(n-1)+D_(n-2)), quad D_0=1,D_1=0. $
+依次得到 $D_2=1,D_3=2,D_4=9,D_5=44$。容斥适合导出通式，递推适合逐项计算；两条路线应给出相同结果。

@@ -247,7 +247,7 @@ done:
 
 == `for`
 
-`for (Init; Test; Update) Body` 与下列代码等价：
+循环体不含 `continue` 时，`for (Init; Test; Update) Body` 与下列代码等价；含 `continue` 时还需把该跳转指向 Update：
 
 ```
 Init;
@@ -365,3 +365,16 @@ for 版逐一取 `(x>>i)&1`，固定跑 WSIZE 次；提前结束的 while 版次
 七个表项按 x=0,…,6 依次为 default、case1、case2、case3、default、case5/6、case5/6。缺 case4 并不意味着缺一个表项，它指回 default。
 
 case2 的除法使用 rdx:rax 作为被除数，故先把原参数 z 从 rdx 移到 rcx，再 `cqto;idivq %rcx`。它的结果已经覆盖初始 w，无须先写 1；case3 单独进入才需显式设置 w=1，然后两条路径在加 z 处汇合。
+
+= 补充例：continue 的目标与比较溢出
+
+```c
+for (int i = 0; i < 3; ++i) {
+    if (i == 1) continue;
+    visit(i);
+}
+```
+
+本例依次访问 0、2。`continue` 跳到 `++i`，执行更新后再检查 `i<3`；若机械改为 while 并把更新放在循环体末尾，continue 会跳过更新，使 i=1 永久不变。恢复汇编时应分别标出“测试入口”和“更新入口”，不能把两者混成一个循环标签。
+
+在八位补码模型中比较 x=127 与 y=−1，减法 x−y 得位串 0x80，SF=1、OF=1。虽然结果的符号位为 1，`jl` 判断的是 SF≠OF，此时不跳转，正确表达 127 不小于 −1。若按无符号数比较相同位串，则 127 小于 255，需要使用无符号条件。OF 正是对溢出造成的符号反转作修正。

@@ -41,6 +41,12 @@ $ A=B <=> (A subset.eq B and B subset.eq A). $
 空集没有元素，因此 $emptyset subset.eq A$ 对任意集合 $A$ 成立。注意
 $ emptyset != {emptyset}, quad abs(emptyset)=0, quad abs({emptyset})=1. $
 
+== 补充例：同一个符号在不同层次出现
+
+取 $A={emptyset,{1,2},3}$。A 有三个元素，其中 $emptyset in A$、${1,2} in A$，但 $1 in.not A$。另一方面，${3} subset.eq A$，而 ${3} in.not A$。证明“属于”只检查列表中的一个完整元素；证明“包含”要逐个检查左侧集合的元素。
+
+取 $B={a,b}$，则 $cal(P)(B)={emptyset,{a},{b},{a,b}}$。其幂集又有 $2^4=16$ 个元素；其中 ${{a},{b}}$ 是 $cal(P)(cal(P)(B))$ 的元素，因为它是 $cal(P)(B)$ 的子集，却不是 B 的子集，因而也不是 $cal(P)(B)$ 的元素。每多一层花括号，对象所在层次就改变一次。
+
 == 幂集与集族
 
 $ cal(P)(A)={B | B subset.eq A}, quad cal(P)(emptyset)={emptyset}. $
@@ -94,3 +100,11 @@ $ abs(union.big_(i=1)^n A_i)
 一个属于恰好 $r$ 个集合的元素在右侧被计数
 $ sum_(k=1)^r (-1)^(k+1) binom(r,k)=1, $
 故每个并集元素恰好计一次。
+
+= 补充例：用一张成员表理解对称差
+
+设全集 $E={1,2,3,4,5}$、$A={1,2,3}$、$B={3,4}$。有 $A-B={1,2}$、$B-A={4}$、$A triangle B={1,2,4}$。3 同时出现两次，因而被对称差去掉；5 一次也未出现，也不在结果中。
+
+把每个元素的成员资格记为 0 或 1，对称差对应模 2 加法。因此三个集合的对称差恰含“出现奇数次”的元素，括号位置不影响结果。这也给出 $A triangle A=emptyset$、$(A triangle B) triangle B=A$：同一集合加入两次后抵消。普通并集不会抵消，所以一般不能由 $A union C=B union C$ 消去 C。
+
+补充反例：$A={1},B={2},C={1,2}$ 时，两边的并都为 C，但 A 与 B 不相等。逐元素转换可帮助判断集合等式是否允许消去。

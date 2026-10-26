@@ -33,6 +33,9 @@
 - #link("ICS/Chapter4/Lesson10.typ")[`Chapter4/Lesson10.typ`]
 - #link("ICS/Chapter4/Lesson11.typ")[`Chapter4/Lesson11.typ`]
 - #link("ICS/LabGuide.typ")[`LabGuide.typ`]
+- #link("ICS/Chapter1_Introduction/Lec1.typ")[小班课：表示与位运算]
+- #link("ICS/Chapter3/BombLab.typ")[Bomb Lab：逐关推导与状态机]
+- #link("ICS/ICS_知识重点总结.typ")[计算机系统知识重点总结]
 
 = 数据结构与算法
 

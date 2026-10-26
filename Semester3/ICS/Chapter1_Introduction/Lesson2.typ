@@ -34,7 +34,7 @@ The sequence of the textbook and the class is a bit different. Use the slides to
 
 == Base 2 number Representation
 
-- represent $15123_10$ as $11101101101101_2$
+- represent $15213_10$ as $11101101101101_2$
 
 Why computers use binary?
 
@@ -117,7 +117,7 @@ Main cause: Binary is the most practical system to use!
 - Right shift: $">>"$
   - shift bit-vector $bold(x)$ right $bold(y)$ positions, throw away extra bits on right.
   - example: $"01100010 >> 3 = 00001100"$
-- Undefined behavior: shift by negative number or shift by more than the length of the bit-vector.
+- Undefined behavior: shift by negative number or shift by at least the length of the promoted left operand.
 
 = Encoding integers
 
@@ -404,3 +404,28 @@ $w$ 位无符号数范围为 0 至 $2^w-1$，补码范围为 $-2^(w-1)$ 至 $2^(
 + `(x&(x-1))!=0` 不是恒真，x=0 或任意单一置位数时左侧为 0。`x&(x-1)` 的作用是去掉最低的一个 1。
 
 这些机器题中的环绕示例并不将 C 有符号溢出变成语言保证；写 C 程序时可用无符号类型表达所要求的模运算。
+
+= 补充例：同一次加法的进位与溢出
+
+先在八位机器模型中只保留结果的低八位：
+
+#table(columns: (2fr, 1fr, 1fr, 1fr, 2fr), inset: 5pt,
+  [运算], [结果位串], [CF], [OF], [补码解释],
+  [`0x7f+0x01`], [`0x80`], [0], [1], [127+1 得 −128],
+  [`0xff+0x01`], [`0x00`], [1], [0], [−1+1 得 0],
+  [`0x80+0x80`], [`0x00`], [1], [1], [−128−128 超出范围],
+)
+
+CF 检查无符号进位，OF 检查有符号结果是否越界，二者可以独立变化。扩展宽度也须区分解释：`0xff` 零扩展为 `0x00ff`，值 255；符号扩展为 `0xffff`，补码值 −1。符号扩展复制最高位，是为了保持补码数值。
+
+== 无符号倒序循环
+
+`size_t i=n-1; i>=0; --i` 的条件对无符号数恒真，且 n=0 时一开始就回绕。可把计数变量解释为“尚未处理的元素数”：
+
+```c
+for (size_t i = n; i > 0; --i) {
+    use(a[i - 1]); // Visit the last remaining element.
+}
+```
+
+n=3 时访问下标 2、1、0；n=0 时一次也不访问。判断条件与变量含义一致，便无需依赖负数哨兵。

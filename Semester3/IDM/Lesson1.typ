@@ -62,7 +62,7 @@
 
 *举例*
 
-RSA-260的一个因子被找到了。如果一千位的大整数很容易被分解，那么公钥私钥就不再安全了。
+大整数分解是课程引入密码学的例子：基于分解困难性的公钥方案，把容易计算的乘法与难以反向求解的因子分解联系起来。
 
 Breaking the sorting barrier for directed single source shortest path
 
@@ -104,10 +104,10 @@ $
 集合之间的关系： $subset, subset.eq, subset.eq.not$
 
 $
-  B subset A, <=> forall x, x in B => x in A
+  B subset.eq A, <=> forall x, x in B => x in A
 $
 
-集合相等： 称$bold(A) = bold(B) $，如果$bold(A) subset B$ 且 $bold(B) subset A$
+集合相等： 称$bold(A) = bold(B) $，如果$bold(A) subset.eq B$ 且 $bold(B) subset.eq A$
 
 空集：没有任何元素的集合，记作$emptyset$。
 
@@ -243,3 +243,13 @@ $ =B inter ((A inter C)^c union (A inter C))=B. $
 先把差转成“交补”，再提取公共因子 B，是这道题的关键。
 
 若 $A triangle B=A triangle C$，两边同作与 A 的对称差，利用结合律与 $A triangle A=emptyset$ 得 $B=C$。普通并、普通交没有这样的消去律，例如 $A=E$ 时 $A union B=A union C$ 对任意 B,C 都成立。
+
+= 补充例：把集合恒等式变成成员资格表
+
+固定任意 x，记 a、b、c 为 x 是否属于 A、B、C 的 0–1 值。交对应逻辑且，并对应逻辑或，补对应取反。以分配律 $A inter (B union C)=(A inter B) union (A inter C)$ 为例：若 a=0，两边都为 0；若 a=1，两边都退化为 b 或 c。两种情况穷尽 a 的可能，所以对每个 x 同时成立，集合便相等。
+
+这也是空集包含于任意集合的直接证明：命题“x 属于空集则 x 属于 A”的前提恒假，所以不存在反例。要证明空集唯一，若 E、F 均无元素，则 E、F 各自包含于对方，由集合外延性相等。
+
+== 补充例：幂集如何编码选择
+
+对子集 $S subset.eq {a,b,c}$，按 a、b、c 顺序写成员位。例如 ${a,c}$ 对应 101，空集对应 000，全集对应 111。每个三位串恰好恢复一个子集，所以有 $2^3=8$ 种。恰含两个元素的子集对应恰有两个 1 的串，共 $binom(3,2)=3$ 种。这将幂集总数与按元素个数分类的计数联系起来。

@@ -196,9 +196,19 @@ int main() {
 }```
 ]
 
+= 样例路径的恢复过程
 
+样例从 Uenokouen 到 Yoyogikouen 有两条主要候选路线：经 Ginza、Sensouji、Meijishinguu 的长度为 $35+80+60+35=210$；经 Shinjukugyoen、Sensouji、Meijishinguu 的长度为 $85+40+60+35=220$。所以选第一条。
 
+`nextPlace[u][v]` 存的是从 u 走向 v 的*第一跳*，并非这条路径的中间点 k。若更短路线改经 k，第一跳应继承 `nextPlace[u][k]`。样例恢复时，固定终点 Yoyogikouen，current 依次为 Uenokouen、Ginza、Sensouji、Meijishinguu、Yoyogikouen；每次查当前点到同一终点的第一跳。
 
+#table(columns:(2fr,1fr,2fr),stroke:0.4pt,
+[当前点],[本段原道路长度],[下一点],
+[Uenokouen],[35],[Ginza], [Ginza],[80],[Sensouji],
+[Sensouji],[60],[Meijishinguu], [Meijishinguu],[35],[Yoyogikouen])
 
+输出箭头旁的数字来自 roadLength，因其表示相邻地点的实际道路长度；dist 保存剩余全程距离，若逐段输出 dist，就会把多个后续路段重复算入。起终点相同时路径只含该地点，长度零，不需要输出自环。
 
+== 补充例：等长路线时如何记录
 
+若 a→b→d 与 a→c→d 都长 10，程序仅在严格更短时更新，因而保留先发现的路线。距离答案仍唯一为 10，最短路径可以不唯一。若题目另要求字典序最小路线，就需要在等长时比较路径次序；仅把 `<` 换成 `<=` 并不能保证字典序。
