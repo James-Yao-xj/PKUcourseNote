@@ -1,8 +1,16 @@
+#include "Lesson1.typ"
+#pagebreak(weak: true)
 #include "Lesson2.typ"
 #pagebreak(weak: true)
 #include "Lesson3.typ"
 #pagebreak(weak: true)
 #include "Lesson4.typ"
+#pagebreak(weak: true)
+#include "RelationClosure.typ"
+#pagebreak(weak: true)
+#include "EquivalenceAndOrder.typ"
+#pagebreak(weak: true)
+#include "Functions.typ"
 #pagebreak(weak: true)
 #include "Lesson9.typ"
 #pagebreak(weak: true)

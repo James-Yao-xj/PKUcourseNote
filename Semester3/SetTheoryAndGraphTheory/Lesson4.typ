@@ -25,7 +25,11 @@
   #text(size: 16pt)[_2026年9月22日 笔记_]
 ]
 
+补充来源：《集图笔记(1)》PDF 第 10—11 页；保留原课堂记录中的投影与联接。
+
 = 投影运算
+
+投影按所选坐标下标提取元组，删除其余坐标；结果按集合计，重复元组合并。
 $
 R subset.eq A_1 times A_2 times ... times A_n \
 
@@ -38,48 +42,64 @@ $
 
 设$R$是以$chevron.l A_1, A_2, ..., A_n, B_1, B_2, ..., B_m chevron.r$为基的$(n + m)$元关系；$S$是以$B_1, B_2, ..., B_m, C_1, ..., C_r chevron.r$为基的$(m + r)$元关系，则$R$和$S$的联接运算定义为：
 
-$
-
-tau_m (R * S) = { chevron.l a_1, a_2, ..., a_n, b_1, b_2, ..., b_m, c_1, c_2, ..., c_r chevron.r | chevron.l a_1, a_2, ..., a_n, b_1, b_2, ..., b_m chevron.r in R and chevron.l b_1, b_2, ..., b_m, c_1, c_2, ..., c_r chevron.r in S }  
-
-$
-
-关系矩阵 $0 - 1$，也就类似之前说的特征函数
-
-
-= 特殊二元关系
-
-$A != emptyset$
-
-$R subset.eq A times A$
-
-$M[R]$表示关系矩阵，$G[R]$表示关系图。
-
-性质
-
-def 设$R subset.eq A times A, (A != emptyset)$
-+ $R$是自反的，是指$forall a in A, a R a$
-+ $R$是反自反的，是指$forall a in A, a 与 a "没有关系" R$
-+ 对称的$forall a, b in A, a R b <=> b R a$
-+ 反对称的 $forall a, b in A, a R b and a != b, b 与 a "没有关系" R$
-+ 斜对称的 $forall a, b in A, a R b => b 与 a "没有关系" R$
-
-
-Theorem
-
-设$R subset.eq A times A (A != emptyset)$
-+ $R$是自反的，$<=> I_A subset.eq R <=> M[R]$对角线元素全部是1$<=>G(R)$每一个顶点都有自环
-
-
-
-$R_1, R_2 subset.eq A times A, A != emptyset$
-
-= 关系性质与运算补充
-
-投影由坐标下标集合 ${i_1,...,i_m} subset.eq {1,...,n}$ 指定，删除未选坐标；结果按集合计，重复元组合并。上文选取的是坐标下标，而非把坐标集合本身当成基集合的子集。
+若共同坐标写成 $bold(b)=(b_1,dots,b_m)$，其余坐标分别写为 $bold(a)$、$bold(c)$，则可简记为
+$ tau_m(R * S)={chevron.l bold(a),bold(b),bold(c) chevron.r | chevron.l bold(a),bold(b) chevron.r in R and chevron.l bold(b),bold(c) chevron.r in S}. $
+这里三段坐标按原次序展开成一个 $(n+m+r)$ 元组，共同坐标只保留一次。
 
 自然联接要求共同坐标相等，再把两元组合并。若 $R={(a,1),(b,2)}$、$S={(1,x),(1,y)}$，共同坐标为中间数，则联接为 ${(a,1,x),(a,1,y)}$。
 
-传递性：$a R b and b R c => a R c$。斜对称（非对称）：$a R b => not(b R a)$，等价于反自反且反对称。反对称允许自环。
+关系性质的完整定义及矩阵刻画见下文，闭包另见 RelationClosure.typ。
 
-自反、对称、传递闭包分别补恒等关系、逆关系和全部正次幂。等价闭包可由对称闭包的自反传递闭包得到，等价类就是忽略方向后的连通块。
+= 关系矩阵与布尔乘法
+
+设 $A={a_1,dots,a_n}$，规定矩阵行表示输入、列表示输出：
+$ M[R]_(i j)=cases(1 & "若" (a_i,a_j) in R, 0 & "否则"). $
+关系图 $G[R]$ 的顶点为 $A$，有向边 $a_i -> a_j$ 对应矩阵中的 $1$；$(a_i,a_i)$ 对应自环。
+
+于是 $M[R^(-1)]=M[R]^T$。并、交对应矩阵各位置的逻辑或、逻辑与。
+
+布尔矩阵乘法定义为
+$ (U dot V)_(i j)=or.big_(k=1)^n (U_(i k) and V_(k j)). $
+这里 $1+1$ 按逻辑或仍为 $1$，只记录是否存在中间点，不统计路径条数。
+
+本课关系复合先作用右边，而矩阵按行输入、列输出，故
+$ M[S compose R]=M[R] dot M[S]. $
+逐项核对：$(a_i,a_j) in S compose R$ 当且仅当某个 $k$ 满足 $M[R]_(i k)=1$ 且 $M[S]_(k j)=1$。
+
+例如按 $a,b,c$ 排序，取
+$ R={(a,a),(a,b),(b,a),(b,c)}, quad S={(a,b),(a,c),(b,c)}, $
+$ M[R]=mat(1,1,0;1,0,1;0,0,0), quad M[S]=mat(0,1,1;0,0,1;0,0,0), $
+$ M[S compose R]=mat(0,1,1;0,1,1;0,0,0). $
+所以 $S compose R={(a,b),(a,c),(b,b),(b,c)}$。
+
+= 关系性质的等价刻画
+
+下述 $R$ 均为 $A$ 上的关系，矩阵不等式逐位置比较。
+
+== 自反与反自反
+
+自反：$forall a in A, (a,a) in R$。等价于 $I_A subset.eq R$、矩阵对角线全为 $1$、关系图每个顶点都有自环。
+
+反自反：$forall a in A, (a,a) in.not R$。等价于 $R inter I_A=emptyset$、矩阵对角线全为 $0$、图中没有自环。
+
+“非自反”只要求至少一个顶点缺少自环，不能替代“反自反”。逆运算分别保持自反性与反自反性。
+
+== 对称、反对称与斜对称
+
+对称：$(a,b) in R => (b,a) in R$，等价于
+$ R=R^(-1), quad M[R]=M[R]^T. $
+图中每条边都有反向边。
+
+反对称：$(a,b) in R and (b,a) in R => a=b$，等价于
+$ R inter R^(-1) subset.eq I_A. $
+不同顶点之间不能同时有两个方向的边；允许自环。
+
+斜对称（非对称）：$(a,b) in R => (b,a) in.not R$，等价于
+$ R inter R^(-1)=emptyset. $
+因此斜对称等价于“反自反且反对称”。对称和反对称可以同时成立，如 $I_A$ 或空关系。
+
+== 传递
+
+传递：$(a,b) in R and (b,c) in R => (a,c) in R$，等价于
+$ R compose R subset.eq R, quad M[R] dot M[R] <= M[R]. $
+图中每条两步游走都有同起点、同终点的一步边。由归纳法，传递关系满足 $R^k subset.eq R$（$k>=1$）。证明不传递，只需找出两步可达而缺少一步边的三个元素；若无可连接的两条边，关系自动传递。

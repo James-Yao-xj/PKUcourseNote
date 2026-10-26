@@ -25,137 +25,132 @@
   #text(size: 16pt)[_2026年9月17日 笔记_]
 ]
 
-= 复习
+= 有序组与笛卡尔积
 
-集合列的上下极限：
+补充来源：《集图笔记(1)》PDF 第 6—11 页。
 
-$
-overline(lim_(n -> oo) A_n) = inter.big_(n = 1) ^ oo union.big_(k = n) ^ oo A_k \
+Kuratowski 有序对定义为
+$ chevron.l a,b chevron.r={{a},{a,b}}. $
+当 $a=b$ 时，右侧为 ${{a}}$。这个编码满足
+$ chevron.l a,b chevron.r=chevron.l c,d chevron.r <=> a=c and b=d. $
+可由 $inter.big chevron.l a,b chevron.r={a}$ 先恢复第一坐标，再由 $union.big chevron.l a,b chevron.r={a,b}$ 恢复第二坐标（分别考虑 $b=a$ 与 $b!=a$）。
 
-underline(lim_(n -> oo) A_n) = union.big_(n = 1) ^ oo inter.big_(k = n) ^ oo A_k
-$
+有序 $n$ 元组递归定义为
+$ chevron.l a_1,dots,a_n chevron.r=chevron.l chevron.l a_1,dots,a_(n-1) chevron.r,a_n chevron.r. $
+两个同长度元组相等，当且仅当各坐标对应相等。仅记录逐步累计集合会丢失重复元素的次序，不能代替有序元组。
 
-*我们将集合中的元素都看作集合，那么就可以正常进行广义交并*
+$ A times B={chevron.l a,b chevron.r | a in A, b in B}, $
+$ product_(i=1)^n A_i={chevron.l a_1,dots,a_n chevron.r | forall i, a_i in A_i}. $
+各因子均为 $A$ 时记作 $A^n$。有限集满足 $abs(A times B)=abs(A) abs(B)$，一般有限积的大小为各因子大小之积。
 
-= 有序组与关系运算
+== 运算性质
 
-== 二元组和多元组：
++ $A times B=emptyset <=> A=emptyset or B=emptyset$。
++ $A times (B union C)=(A times B) union (A times C)$；交运算同理，固定右因子也同理。
++ $A times (B-C)=(A times B)-(A times C)$。
++ 若 $A!=emptyset$，则 $A times B subset.eq A times C <=> B subset.eq C$。
++ 若 $A,B$ 均非空，则 $A times B subset.eq C times D$ 当且仅当 $A subset.eq C$ 且 $B subset.eq D$。
 
-$chevron.l a, b chevron.r => {{a}, {a, b}} "当"a = b, => {{a}}$
+最后一条中，固定 $b in B$，从 $(a,b) in C times D$ 推出任意 $a in A$ 属于 $C$；另一坐标同理。若允许左侧为空积，则不能由积的包含推出两个因子的包含。
 
-有序 $n$ 元组可递归编码：先用 Kuratowski 有序对，再令
-$ chevron.l a_1,...,a_n chevron.r=chevron.l chevron.l a_1,...,a_(n-1) chevron.r,a_n chevron.r. $
-只用逐步累计集合 ${a_1},{a_1,a_2},...$ 会丢掉重复元素的次序，例如 $(a,a,b)$ 与 $(a,b,b)$ 无法据此可靠区分。
+笛卡尔积一般不交换，也不结合：$(a,b)$ 与 $(b,a)$、$((a,b),c)$ 与 $(a,(b,c))$ 的编码不同。两种括号方式存在自然的一一对应，不能据此把集合写成相等。
 
-== 卡氏积
+= 二元关系
 
-$A times B => A_1 times A_2 times ... times A_n, "当"A_1 = A_2 = ... = A_n, => A^n$
+$n$ 元关系是有序 $n$ 元组的集合。从 $A$ 到 $B$ 的二元关系为 $R subset.eq A times B$；当 $A=B$ 时称 $A$ 上的关系，$A$ 为基集。
 
-== $n$元关系
+若 $abs(A)=m$、$abs(B)=n$，则这类关系共有 $2^(m n)$ 个；$A$ 上的关系共有 $2^(m^2)$ 个。
 
-有序$n$元组构成的集合定义一个$n$元关系。
+空关系为 $emptyset$，全关系为 $E_A=A times A$，恒等关系为 $I_A={(a,a) | a in A}$。常见例子有实数上的 $<=$、正整数上的整除关系，以及幂集上的包含关系。
 
-二元关系就是有序对的集合。
+$ "dom" R={x | exists y, (x,y) in R}, quad "ran" R={y | exists x, (x,y) in R}, $
+$ "fld" R="dom" R union "ran" R. $
+$A$、$B$ 分别是指定的前域和陪域；定义域、值域由关系实际出现的坐标确定，可能是真子集。
 
-从集合$A$到集合$B$的二元关系，用$R$表示。#footnote[没有特殊说明，默认集合$A$和$B$是非空的。]
-$
-R subset.eq A times B
-$
+*单值*：$(x,y) in R and (x,z) in R => y=z$。每个输入至多对应一个输出。
 
-读作“$R$是从$A$到$B$的二元关系”。
+*单根*：$(x,y) in R and (z,y) in R => x=z$。每个输出至多来自一个输入。关系的逆单值，当且仅当原关系单根。
 
-特别地，当$A = B$，那么称之为$A$上的二元关系，称为“基集”。
-$
-R subset.eq A times A
-$
+= 逆、复合、限制与像
 
-如果$abs(A) = m, abs(B) = n$，那么定义在$A -> B$上的二元关系的个数为$2^(m n)$。
+$ R^(-1)={(y,x) | (x,y) in R}, $
+$ F compose G={(x,y) | exists z, (x,z) in G and (z,y) in F}. $
 
-$emptyset$称为“空关系”，全集上的关系称为“全关系”，一般记作$E_A$, $I_A$表示恒等关系。
+*本课按左复合约定：先作用右边的 $G$，再作用左边的 $F$。* 例如 $R subset.eq A times B$、$S subset.eq B times C$，则 $S compose R subset.eq A times C$。
 
-$R subset.eq A times B$，我们称$A$是前域，$B$是陪域。
+在输入集合 $X$ 上的限制及集合的像分别为
+$ R harpoon.tr X={(x,y) in R | x in X}, quad R[X]={y | exists x in X, (x,y) in R}. $
+因此 $R[X]="ran"(R harpoon.tr X)$。限制只筛选第一坐标，并不要求第二坐标也属于 $X$。
 
-$R$的定义域：$"dom" R = {x | x in A and exists y in B, s.t. chevron.l x, y chevron.r in R}$
+== 逆与定义域、值域
 
-$R$的值域：$"ran" R = {y | y in B and exists x in A, s.t. chevron.l x, y chevron.r in R}, chevron.l x, y chevron.r in R <=> x R y.$
+$ (R^(-1))^(-1)=R, quad "dom"(R^(-1))="ran" R, quad "ran"(R^(-1))="dom" R. $
+逆运算保持包含，并保持并、交、差：
+$ (R union S)^(-1)=R^(-1) union S^(-1), quad (R inter S)^(-1)=R^(-1) inter S^(-1), $
+$ (R-S)^(-1)=R^(-1)-S^(-1). $
 
-$
-f(d(R)) = "dom"(R) union "ran"(R)
-$
+定义域与值域对并保持等式：
+$ "dom"(R union S)="dom" R union "dom" S, quad "ran"(R union S)="ran" R union "ran" S. $
+对交、差一般只有
+$ "dom"(R inter S) subset.eq "dom" R inter "dom" S, $
+$ "dom" R-"dom" S subset.eq "dom"(R-S), $
+值域亦同。例如 $R={(1,2)}$、$S={(1,3)}$，交关系为空，但定义域的交为 ${1}$；$R-S=R$，而定义域之差为空。
 
+== 复合的运算律
 
-如果$R$满足：
+$ (T compose S) compose R=T compose (S compose R), $
+$ (S compose R)^(-1)=R^(-1) compose S^(-1). $
+若 $R subset.eq A times B$，则 $I_B compose R=R=R compose I_A$。
 
-$
-forall x in "dom"(R), exists! y in "ran"(R), s.t. chevron.l x, y chevron.r in R
-$
-称$R$为单值的。
+*结合律的证明*
 
-如果$R$满足：
+$(x,w) in T compose (S compose R)$ 当且仅当存在 $y,z$，使 $(x,y) in R$、$(y,z) in S$、$(z,w) in T$；同一条件也刻画 $(x,w) in (T compose S) compose R$。
 
-$
-forall y in "ran"(R), exists! x in "dom"(R), s.t. chevron.l x, y chevron.r in R
-$
-称$R$为单根的。
+复合对并左右分配：
+$ T compose (R union S)=(T compose R) union (T compose S), $
+$ (R union S) compose T=(R compose T) union (S compose T). $
+对交则通常只有包含：
+$ T compose (R inter S) subset.eq (T compose R) inter (T compose S), $
+$ (R inter S) compose T subset.eq (R compose T) inter (S compose T). $
+右侧两次复合的中间元素可以不同，不能把两个存在量词自动合并为同一个见证。
 
+例如 $R={(1,2)}$、$S={(1,3)}$、$T={(2,4),(3,4)}$，则 $R inter S=emptyset$，但 $(T compose R) inter (T compose S)={(1,4)}$。
 
-$
-R ^(-1) = { chevron.l y, x chevron.r | chevron.l x, y chevron.r in R }
-$
+== 限制与像的运算律
 
-$
-F bullet.stroked G = { chevron.l x, z chevron.r | exists y in B, s.t. chevron.l x, y chevron.r in F and chevron.l y, z chevron.r in G }
-$
+$ (R union S) harpoon.tr X=(R harpoon.tr X) union (S harpoon.tr X), $
+$ (R inter S) harpoon.tr X=(R harpoon.tr X) inter (S harpoon.tr X), $
+$ (S compose R) harpoon.tr X=S compose (R harpoon.tr X). $
+这些限制公式也可推广到任意并及非空交。
 
-R是限制在$A_1$上的关系，记作$ R harpoon.tr A_1, A_1 subset.eq A$
+$ R[X union Y]=R[X] union R[Y], quad R[union.big_alpha X_alpha]=union.big_alpha R[X_alpha], $
+$ R[X inter Y] subset.eq R[X] inter R[Y], quad R[X]-R[Y] subset.eq R[X-Y], $
+$ (S compose R)[X]=S[R[X]]. $
 
-*命题*
+例如整数上的 $R={(x,y) in ZZ^2 | y=abs(x)}$，取 $X={0,1,2}$、$Y={0,-1,-2}$，则
+$ R[X]=R[Y]={0,1,2}, quad R[X inter Y]={0}, $
+$ R[X]-R[Y]=emptyset, quad R[X-Y]={1,2}. $
+若 $R$ 单根，两个像中的同一输出只能来自同一输入，此时上述交、差的包含都成为等式。
 
-$
-(R bullet.stroked G) ^(-1) = G ^(-1) bullet.stroked R ^(-1)
-$
+= 关系的幂
 
-我的理解：可以类比一下矩阵。证明按照定义展开即可。
+对 $A$ 上的关系 $R$，定义
+$ R^0=I_A, quad R^(n+1)=R^n compose R quad (n in NN). $
+$(x,y) in R^n$ 表示存在从 $x$ 到 $y$ 的一条长为 $n$ 的有向游走；允许重复顶点。
 
+由结合律和归纳法得到
+$ R^m compose R^n=R^(m+n), quad (R^m)^n=R^(m n). $
 
-顺序：设$R subset A times B, S subset B times C$
-定义：
-$
-R bullet.stroked S = { chevron.l a, c chevron.r | exists b in B, s.t. chevron.l a, b chevron.r in R and chevron.l b, c chevron.r in S }
-$
+== 有限关系幂的最终周期性
 
-本文固定右复合：先作用左侧关系，再作用右侧关系。若改用函数通常的左复合记号，必须同时改变表达式的顺序；两种约定不能在同一公式中混用。
+若 $abs(A)=q$，则共有 $2^(q^2)$ 个关系。$R^0,R^1,dots,R^(2^(q^2))$ 中必有重复，故存在
+$ 0 <= s < t <= 2^(q^2), quad R^s=R^t. $
+令 $p=t-s$，则任意 $k>=0$ 满足 $R^(s+k)=R^(t+k)$。因此当 $n>=s$ 时，
+$ R^n=R^(s+((n-s) mod p)). $
+这称为最终周期性；并不表示关系的幂从第零项起就循环。
 
-== 幂运算
+例如 $R^5=R^15$，则周期可取 $10$，$R^100=R^10$。正次幂之并可取有限代表：
+$ union.big_(n=1)^oo R^n=union.big_(i=1)^t R^i. $
+保留第 $t$ 项可覆盖 $s=0$ 时与 $R^0$ 相等的正次幂。
 
-Def 设$R subset.eq A times A, (A != emptyset), n in NN$
-
-定义$R^n$如下：
-+ $R^0 = I_A, R^1 = R$；一次幂也可由递推和恒等关系直接推出。
-+ $R^n = R^(n-1) bullet.stroked R, n >= 1$
-
-*Theorem*
-
-$R subset.eq A times A, forall m,n in NN$
-+ $R^m bullet.stroked R^n = R^(m+n)$
-+ $(R^m)^n = R^(m n)$
-
-$
-union.big_(n = 0) ^ oo R^n = I_A union R union R^2 union ... union R^n union ...
-$
-
-*Theorem* 
-
-设$R subset.eq A times A$若存在$s, t in NN,  s.t. s < t and R^s = R^t$，则
-+ $R^(s + k) = R^(t + k)$
-+ $R ^ (s+k(t - s)) = R^s$
-+ $R^oo = union.big_(n = 1) ^ oo R ^ n = union.big_(i = 1) ^ t R ^ i$
-
-这几条性质理解可以类比矩阵的循环分解与一个循环基。
-
-
-
-
-
-
-
+无限基集上结论未必成立。如 $R={(n,n+1) | n in NN}$，则 $R^k={(n,n+k) | n in NN}$，各次幂互不相同。
