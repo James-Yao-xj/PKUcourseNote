@@ -422,3 +422,35 @@ arith:
 - `movq` 在立即数、寄存器和内存之间传送 8 字节，但不能直接完成内存到内存复制。
 - 地址表达式 `D(Rb,Ri,S)` 对应基址、索引、比例和位移；它既可用于访存，也可由 `leaq` 当作普通算术表达式使用。
 - 阅读双操作数指令时要始终记住 AT&T 顺序：`opq Src, Dest`，结果写回目的操作数。
+
+= 课堂例题：sumstore 与 swap 的数据流
+
+*ICS04 第 15—23 页。* `sumstore(x,y,dest)` 调用 plus，再将返回值存到 dest。参数依次在 rdi、rsi、rdx，返回值在 rax；rdx 属于调用者保存寄存器，plus 调用可能改变它，所以先将 dest 保存到 rbx。
+
+汇编依次 `pushq %rbx` 保存调用者原 rbx，`movq %rdx,%rbx` 保存 dest，`call plus`，`movq %rax,(%rbx)` 写回目标，最后 `popq %rbx;ret` 恢复现场。课件对应 14 字节机器码由 1、3、5 字节等不同长度指令构成。
+
+*第 31—37 页。* swap 先从 xp、yp 各读一个 long 到 rax、rdx，然后写 `*xp=rdx`、`*yp=rax`。两次读取先于任何一次写入，保证原值都被暂存；直接先写 `*xp`，再以修改后的 `*xp` 更新 `*yp` 会丢掉原值。
+
+= 课堂例题：寻址与 LEA 的算术还原
+
+*第 40 页。* 给定 rdx=0xf000、rcx=0x100，四种地址依次为
+
+#table(columns:(2fr,2fr,1fr),
+ [表达式],[计算],[地址],
+ [`0x8(%rdx)`],[0xf000+8],[0xf008],
+ [`(%rdx,%rcx)`],[0xf000+0x100],[0xf100],
+ [`(%rdx,%rcx,4)`],[0xf000+4×0x100],[0xf400],
+ [`0x80(,%rdx,2)`],[0x80+2×0xf000],[0x1e080])
+
+普通 mov 使用这些地址读取内存；lea 只计算右侧地址数值。比例因子编码限制为 1、2、4、8。
+
+*第 45—46 页 arith。* 初始 rdi=x、rsi=y、rdx=z：
+
++ `leaq (%rdi,%rsi),%rax` 得 x+y。
++ `addq %rdx,%rax` 得 x+y+z。
++ `leaq (%rsi,%rsi,2),%rdx` 得 3y，z 已用完，rdx 可复用。
++ `salq $4,%rdx` 得 48y。
++ `leaq 4(%rdi,%rdx),%rcx` 得 x+48y+4。
++ `imulq %rcx,%rax` 得最终 $(x+y+z)(x+48y+4)$。
+
+源程序有多个临时量，汇编却可在值生命周期结束后复用寄存器；乘 48 用一次 LEA 和一次移位表达，最后仅保留一次一般乘法。

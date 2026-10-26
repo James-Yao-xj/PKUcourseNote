@@ -119,3 +119,104 @@ SEQ 的 CPI 为 1，但时钟周期长，且各功能单元只在周期的一部
 = 手工跟踪
 
 若 `%rsp=0x100`，执行 `call 0x200`，当前 PC 为 `0x20`：`valP=0x29`，`valE=0xf8`，`M8[0xf8]=0x29`，新 `%rsp=0xf8`，新 PC 为 `0x200`。随后 `ret` 读取 `0x29`，恢复 `%rsp=0x100` 并返回 `0x29`。
+
+= 课堂逐条推演：六阶段信号如何对应指令
+
+*ICS10 第 12—27 页。* 以下保留课件的 Fetch、Decode、Execute、Memory、Write back、PC update 六个逻辑步骤。SEQ 中它们在同一周期内依次完成，周期末共同更新状态。
+
+== `OPq rA,rB`：ALU 操作（第 12—13 页）
+
+取指读 1 字节 `icode:ifun` 与 1 字节 `rA:rB`，故 `valP=PC+2`。译码读 `valA=R[rA]`、`valB=R[rB]`；执行得到 `valE=valB OP valA`，并更新条件码；访存阶段无数据操作；写回 `R[rB]=valE`，PC 取 valP。
+
+例如按上述步骤代入 `subq %rax,%rbx`，若 rax=3、rbx=10，则 valA=3、valB=10、valE=7，写回 rbx=7。减法的操作数顺序与汇编的源、目的顺序一致。
+
+== `rmmovq rA,D(rB)`：写内存（第 14—15 页）
+
+取指共 10 字节：操作码 1、寄存器 1、位移 8，`valC=D`、`valP=PC+10`。译码读待存值 valA 与基址 valB；ALU 计算 `valE=valB+valC`；访存执行 `M8[valE]=valA`；无寄存器写回，PC 顺序前进。
+
+因此地址是 valE，写入的数据是 valA。将二者弄反，会把“存到哪个位置”与“存什么内容”对调。
+
+== `popq rA`：两个写回目的（第 16—17 页）
+
+取指 2 字节。译码阶段将旧 `%rsp` 同时读为 valA、valB；执行算 `valE=valB+8`；访存从旧栈顶 `M8[valA]` 读出 valM；写回 `%rsp=valE`、`rA=valM`。PC 前进 2。
+
+例：旧 rsp=0x100，`M8[0x100]=0x37`，弹到 rax 后 rsp=0x108、rax=0x37。必须从旧地址读取，而不是从已经增加 8 的 valE 读取。
+
+若 rA 本身为 rsp，两个写回端口都指向同一寄存器，内存结果的写回优先级决定最终 rsp；课件的体系结构语义最终保留弹出的值。
+
+== `cmovXX rA,rB`：取消目的寄存器（第 18—19 页）
+
+译码只需读 rA，ALU 以 `0+valA` 传递它。依据 CC 和 ifun 计算 Cnd；Cnd 为假时将 dstE 设为 RNONE（0xF），从而取消写回。这里无需在 ALU 数据路径上“恢复旧 rB”，只要让写使能不作用于真实寄存器。
+
+== `jXX Dest`：两条候选 PC（第 20—21 页）
+
+跳转指令 9 字节，valC 为目的地址，valP=PC+9 为顺序地址。执行阶段算 Cnd，最终 `PC=Cnd?valC:valP`。它不写通用寄存器，也不需要访问数据内存。
+
+== `call Dest` 与 `ret`（第 22—25 页）
+
+call 取指 9 字节，保存的返回地址为 valP=PC+9。读旧 rsp 到 valB，执行 `valE=valB-8`，把 valP 存到 `M8[valE]`，写回 rsp=valE，PC 改为 valC。
+
+ret 取指 1 字节，旧 rsp 同时送 valA、valB；执行新 rsp=valB+8；从旧栈顶读取返回地址 valM；写回新 rsp，PC 取 valM。
+
+例如根据课堂步骤设 PC=0x20、rsp=0x100、call 目标 0x80，则调用后 rsp=0xf8，`M8[0xf8]=0x29`、PC=0x80；返回时从 0xf8 读到 0x29，再使 rsp 回到 0x100。被压入的是调用后继地址，而不是 call 自己的地址。
+
+= 课堂 HCL：按指令类别逐项选择
+
+*第 32—45 页。* HCL 方括号从上到下选择第一条条件为真的分支，各项在同一周期作为组合逻辑求值。
+
+```text
+srcA = [
+  icode in {IRRMOVQ,IRMMOVQ,IOPQ,IPUSHQ}: rA;
+  icode in {IPOPQ,IRET}: RRSP;
+  1: RNONE;
+];
+srcB = [
+  icode in {IOPQ,IRMMOVQ,IMRMOVQ}: rB;
+  icode in {IPUSHQ,IPOPQ,ICALL,IRET}: RRSP;
+  1: RNONE;
+];
+dstE = [
+  icode == IRRMOVQ && Cnd: rB;
+  icode in {IIRMOVQ,IOPQ}: rB;
+  icode in {IPUSHQ,IPOPQ,ICALL,IRET}: RRSP;
+  1: RNONE;
+];
+dstM = [ icode in {IMRMOVQ,IPOPQ}: rA; 1: RNONE; ];
+```
+
+`srcA`、`srcB` 是要读取的寄存器编号，valA、valB 是实际读到的数值；dstE 是 ALU 结果的目的，dstM 是内存结果的目的。popq 恰好同时使用两个结果通道。
+
+```text
+aluA = [
+  icode in {IRRMOVQ,IOPQ}: valA;
+  icode in {IIRMOVQ,IRMMOVQ,IMRMOVQ}: valC;
+  icode in {ICALL,IPUSHQ}: -8;
+  icode in {IRET,IPOPQ}: 8;
+];
+aluB = [
+  icode in {IRMMOVQ,IMRMOVQ,IOPQ,ICALL,IPUSHQ,IRET,IPOPQ}: valB;
+  icode in {IRRMOVQ,IIRMOVQ}: 0;
+];
+alufun = [ icode == IOPQ: ifun; 1: ALUADD; ];
+set_cc = icode == IOPQ;
+```
+
+同一个 ALU 可完成算术运算、地址计算、栈指针增减以及寄存器传送。只有 OPq 设置 CC，避免普通地址加法意外改变后续跳转依据。
+
+```text
+mem_addr = [
+  icode in {IRMMOVQ,IPUSHQ,ICALL,IMRMOVQ}: valE;
+  icode in {IPOPQ,IRET}: valA;
+];
+mem_data = [ icode in {IRMMOVQ,IPUSHQ}: valA; icode == ICALL: valP; ];
+mem_read = icode in {IMRMOVQ,IPOPQ,IRET};
+mem_write = icode in {IRMMOVQ,IPUSHQ,ICALL};
+new_pc = [
+  icode == ICALL: valC;
+  icode == IJXX && Cnd: valC;
+  icode == IRET: valM;
+  1: valP;
+];
+```
+
+状态选择先处理取指或数据访问错误 SADR，再处理非法指令 SINS，再处理 halt 的 SHLT，否则 SAOK。SEQ 的时钟周期必须容纳最慢指令的整条组合路径；课件第 46—50 页的多张状态图，展示的是同一周期中信号逐步稳定和周期末状态更新的过程。

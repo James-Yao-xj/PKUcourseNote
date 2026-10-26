@@ -44,6 +44,9 @@
 - #link("DataStructureAlgorithm/Lesson6/Lesson6.typ")[`Lesson6/Lesson6.typ`]
 - #link("DataStructureAlgorithm/DevEnvironment.typ")[`DevEnvironment.typ`]
 
+- #link("DataStructureAlgorithm/Lesson1_IntroAndFloyd/Lesson1.typ")[第一讲：Floyd 原例与推导]
+- #link("DataStructureAlgorithm/Lesson2/Lesson2.typ")[第二讲：原课堂记录]
+
 原第一、二讲保留独立文件；第三讲已包含概论、线性表、栈与队列，合订本由第三讲开始，以免整段重复。
 
 = 离散数学基础
@@ -88,13 +91,17 @@
 
 #link("SetTheoryAndGraphTheory/main.typ")[课程合订本：集合论与图论]
 
+- #link("SetTheoryAndGraphTheory/Lesson1.typ")[集合基础与集族]
+- #link("SetTheoryAndGraphTheory/RelationClosure.typ")[关系闭包与原题矩阵]
+- #link("SetTheoryAndGraphTheory/EquivalenceAndOrder.typ")[等价、划分与偏序]
+- #link("SetTheoryAndGraphTheory/Functions.typ")[函数与有限计数]
 - #link("SetTheoryAndGraphTheory/Lesson2.typ")[`Lesson2.typ`]
 - #link("SetTheoryAndGraphTheory/Lesson3.typ")[`Lesson3.typ`]
 - #link("SetTheoryAndGraphTheory/Lesson4.typ")[`Lesson4.typ`]
 - #link("SetTheoryAndGraphTheory/Lesson9.typ")[`Lesson9.typ`]
 - #link("SetTheoryAndGraphTheory/Lesson10.typ")[`Lesson10.typ`]
 
-沿用该课现有课堂记录，补充集合极限、关系运算、偏序和自然数构造；材料目录中的离散数学教材用于交叉核对。
+十九页手写笔记已编入各讲；闭包、划分和函数的原题计算与链反链分解详见对应章节。
 
 = 课件对应
 

@@ -91,3 +91,84 @@ $ a^T X~N(a^T mu,a^T Sigma a). $
 独立标准正态 $X_i$：$E(sum_i X_i^2)=n$；$"Var"(sum_i a_i X_i)=sum_i a_i^2$。
 
 若 $n times n$ 矩阵 $A$ 的各项独立标准正态，则 $E(det(A))=0$，$E("tr"(A))=0$，$E("tr"(A^2))=n$。最后一式展开为 $sum_(i,j) E(A_(i j)A_(j i))$，只有 $i=j$ 项贡献 1。
+
+= 课堂推导展开：二维高斯归一化与条件密度
+
+*课件第 16—21 页。* 置 $a=(x-mu_1)/sigma_1$、$b=(y-mu_2)/sigma_2$，配方后再定义
+$ u=(a-rho b)/sqrt(1-rho^2), quad v=b. $
+此时
+$ (a^2-2rho a b+b^2)/(1-rho^2)=u^2+v^2, $
+$ abs(det(partial(u,v)/partial(x,y)))=1/(sigma_1 sigma_2 sqrt(1-rho^2)). $
+因此 $dif x dif y=sigma_1 sigma_2 sqrt(1-rho^2)dif u dif v$，与密度前面的对应因子抵消：
+$ integral.double_(RR^2) f(x,y) dif x dif y
+ =integral_(-oo)^oo e^(-u^2/2)/sqrt(2pi) dif u
+  integral_(-oo)^oo e^(-v^2/2)/sqrt(2pi) dif v=1. $
+
+求 $X$ 的边际时，固定 $x$，对 $y$ 使用交换坐标后的配方：
+$ a^2-2rho a b+b^2=(b-rho a)^2+(1-rho^2)a^2. $
+对含 $b$ 的正态因子积分为 1，剩下 $e^(-a^2/2)/(sqrt(2pi)sigma_1)$，故 $X~N(mu_1,sigma_1^2)$。
+
+求 $X|Y=y$，用联合密度除以 $Y$ 的边际密度。$b^2/2$ 的项相消，得到
+$ f_(X|Y)(x|y)=1/(sqrt(2pi)sigma_1 sqrt(1-rho^2))
+ exp(-((x-mu_1)-rho sigma_1/sigma_2 (y-mu_2))^2/(2sigma_1^2(1-rho^2))). $
+由密度读出条件均值与方差，而不是只背结果。给定 $Y$ 后剩余方差的比例为 $1-rho^2$。
+
+== 协方差积分的化简（课件第 32—33 页）
+
+用上述 $u,v$，有
+$ y-mu_2=sigma_2 v, quad x-mu_1=sigma_1(sqrt(1-rho^2)u+rho v). $
+所以
+$ "Cov"(X,Y)=sigma_1 sigma_2 E(sqrt(1-rho^2)U V+rho V^2). $
+$U,V$ 为独立标准正态，$E(U V)=0,E(V^2)=1$，故协方差为 $rho sigma_1 sigma_2$。这里的 $rho$ 才被验证为相关系数；它并非仅凭密度中参数名称得到。
+
+= 课堂例题展开：向量与随机矩阵的矩
+
+== 高斯向量的模长（课件第 25 页）
+
+设 $X=(X_1,dots,X_n)$，每个 $X_i~N(0,1)$，$Y=norm(X)$。题目只要求每个边际标准正态：
+$ E(Y^2)=E(sum_(i=1)^n X_i^2)=sum_(i=1)^n E(X_i^2)=n. $
+线性性已经足够。若进一步要求 $Y^2$ 的卡方分布，才需各坐标相互独立。
+
+== 固定方向上的投影（课件第 26、42、56 页）
+
+若各 $X_i$ 独立，$Y=sum_i a_i X_i$，则
+$ E(Y)=sum_i a_i E(X_i)=0, $
+$ "Var"(Y)=sum_i a_i^2 "Var"(X_i)=sum_i a_i^2=norm(a)^2. $
+独立高斯的线性组合仍为高斯，故 $Y~N(0,norm(a)^2)$。取 $a_i=1/n$ 得样本均值方差 $1/n$；取单位向量得任意单位方向投影均为 $N(0,1)$。
+
+== 独立标准正态矩阵（课件第 27 页）
+
+设 $A$ 为 $n times n$ 矩阵，各元素独立标准正态。
+
+行列式展开为 $det(A)=sum_(sigma in S_n) "sgn"(sigma) product_i A_(i,sigma(i))$。每个排列选出不同位置的 $n$ 个独立元素，乘积期望是各零均值之积，因此 $E(det(A))=0$。
+
+迹为 $"tr"(A)=sum_i A_(i i)$，直接有 $E("tr"(A))=0$。
+
+$"tr"(A^2)$ 要先按矩阵乘法展开：
+$ "tr"(A^2)=sum_i sum_j A_(i j)A_(j i). $
+$i!=j$ 时两个元素独立且均值为零，贡献 0；$i=j$ 时为 $A_(i i)^2$，期望为 1。共 $n$ 个对角项，所以结果为 $n$。
+
+= 课堂推导展开：矩阵形式与线性变换
+
+== 二维协方差矩阵的逆（课件第 53 页）
+
+$ B=mat(sigma_1^2,rho sigma_1 sigma_2;rho sigma_1 sigma_2,sigma_2^2), $
+$ B^(-1)=1/(1-rho^2)mat(1/sigma_1^2,-rho/(sigma_1 sigma_2);-rho/(sigma_1 sigma_2),1/sigma_2^2). $
+将向量 $x-mu$ 左右乘入后，二次型展开恰为二维密度指数中的三个项。行列式平方根 $sigma_1 sigma_2 sqrt(1-rho^2)$ 也与二维归一化系数一致。
+
+== 可逆变换的密度证明（课件第 55 页）
+
+对 $Y=A X+b$，反变换 $x=A^(-1)(y-b)$，雅可比绝对值为 $1/abs(det(A))$。又有
+$ (A B A^T)^(-1)=(A^(-1))^T B^(-1) A^(-1), $
+$ det(A B A^T)=det(A)^2 det(B). $
+分别代入指数与系数，得到 $Y~N(A mu+b,A B A^T)$。这解释了为什么协方差左右分别乘 $A$ 与 $A^T$。
+
+取只有第 $i$ 个位置为 1 的行向量，得到 $X_i~N(mu_i,B_(i i))$；选择多行得到子向量的边际高斯。取 $A=(1,1)$，得到课件第 56 页的和：
+$ X+Y~N(mu_1+mu_2,sigma_1^2+sigma_2^2+2rho sigma_1 sigma_2). $
+两个均值相加、两个方差相加之外，相关项也要保留。
+
+== 白化与椭球（课件第 57—59 页）
+
+写 $B=Q Lambda Q^T$，取 $B^(1/2)=Q Lambda^(1/2)Q^T$。对于标准高斯 $Z$，$X=mu+B^(1/2)Z$ 的均值为 $mu$，协方差为 $B$；反向变换 $B^(-1/2)(X-mu)$ 得标准高斯。
+
+等密度面满足 $(x-mu)^T B^(-1)(x-mu)=c$。令 $z=Q^T(x-mu)$，就成为 $sum_i z_i^2/lambda_i=c$：第 $i$ 个半轴为 $sqrt(c lambda_i)$，方向为第 $i$ 个特征向量。体积相对半径 $sqrt(c)$ 的球扩大 $product_i sqrt(lambda_i)=sqrt(det(B))$ 倍，密度系数同时缩小这个倍数。

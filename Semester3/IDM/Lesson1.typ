@@ -207,4 +207,39 @@ $
 
 === 有穷集的计数
 
+= 课件例题补全：元素、层次与幂集
 
+*第一部分第 24—47 页。* 对 $A={a,{b,c},d,{{d}}}$，第一层元素为 a、{b,c}、d、{{d}}，所以 $abs(A)=4$。其中 $b in.not A$、${d} in.not A$，但 d 本身属于 A；${d}$ 是元素 {{d}} 的元素。这一例要逐层数括号，而非把所有叶子都数为 A 的元素。
+
+对 $A={a,{a}}$，既有 ${a} in A$，也有 ${a} subset.eq A$。前一个把 {a} 作为完整对象，后一个检查其中唯一元素 a；两种关系可以同时成立。
+
+对三元集 ${1,2,3}$，全部子集为
+$ emptyset; quad {1},{2},{3}; quad {1,2},{1,3},{2,3}; quad {1,2,3}. $
+按大小分类分别有 1、3、3、1 个，总数 8。幂集的元素是这些子集，而非直接把 1、2、3 当作幂集元素。
+
+== 广义运算的课堂数字与字母例（第 58—69 页）
+
+$A={a,b,c},B={b,d}$，则 $A triangle B={a,c,d}$：b 出现在两边而被删除。若全集 ${a,b,c,d}$，则 A 的补为 {d}。
+
+集族 $cal(A)={{a,b,c},{a,c,d},{a,c,e,f}}$ 的广义并为 ${a,b,c,d,e,f}$；$cal(B)={{a}}$ 的广义并为 ${a}$。集族 ${{a,b},{a,c}}$ 的广义交为 ${a}$；单元素集族 ${{b,c}}$ 的广义交是 ${b,c}$ 本身。
+
+本课课件不定义空族的广义交；空族的广义并为 $emptyset$。若另一个问题明确在全集 E 内定义指标交，空指标交可以约定为 E，应先说明所用范围。
+
+= 课件证明题：逐行注明算律
+
+*第一部分第 80—127 页。* 证明吸收律时，若只允许已给出的基础算律，可写
+$ A union (A inter B)=(A inter E) union (A inter B)
+ =A inter (E union B)=A inter E=A. $
+四步依次使用同一律、分配律、零律和同一律。
+
+证明 $(A-B) union B=A union B$：
+$ (A-B) union B=(A inter B^c) union B
+ =(A union B) inter (B^c union B)=(A union B) inter E=A union B. $
+
+化简课件表达式：
+$ (B-(A inter C)) union (A inter B inter C) $
+$ =(B inter (A inter C)^c) union (B inter (A inter C)) $
+$ =B inter ((A inter C)^c union (A inter C))=B. $
+先把差转成“交补”，再提取公共因子 B，是这道题的关键。
+
+若 $A triangle B=A triangle C$，两边同作与 A 的对称差，利用结合律与 $A triangle A=emptyset$ 得 $B=C$。普通并、普通交没有这样的消去律，例如 $A=E$ 时 $A union B=A union C$ 对任意 B,C 都成立。
