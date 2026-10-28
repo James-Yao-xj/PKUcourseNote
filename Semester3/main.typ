@@ -15,7 +15,7 @@
   #text(size: 24pt, weight: "bold")[课程笔记总目录]
 ]
 
-本目录按现有课件和笔记组织，整理日期：2026 年 10 月 26 日。
+本目录按现有课件和笔记组织，整理日期：2026 年 10 月 28 日。
 
 = 计算机系统导论
 
@@ -45,6 +45,7 @@
 - #link("DataStructureAlgorithm/Lesson4/Lesson4.typ")[`Lesson4/Lesson4.typ`]
 - #link("DataStructureAlgorithm/Lesson5/Lesson5.typ")[`Lesson5/Lesson5.typ`]
 - #link("DataStructureAlgorithm/Lesson6/Lesson6.typ")[`Lesson6/Lesson6.typ`]
+- #link("DataStructureAlgorithm/graph/graph.typ")[图：十字链表、拓扑排序与最短路径]
 - #link("DataStructureAlgorithm/DevEnvironment.typ")[`DevEnvironment.typ`]
 
 - #link("DataStructureAlgorithm/Lesson1_IntroAndFloyd/Lesson1.typ")[第一讲：Floyd 原例与推导]

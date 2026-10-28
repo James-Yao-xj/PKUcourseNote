@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="690" viewBox="0 0 1200 690">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#111"/>
+    </marker>
+    <style>
+      text { fill: #111; font-family: "Noto Sans CJK SC", "Source Han Sans SC", sans-serif; }
+      .title { font-size: 24px; font-weight: 600; }
+      .label { font-size: 20px; }
+      .small { font-size: 17px; }
+      .field { font-size: 16px; }
+      .shape { fill: #fff; stroke: #111; stroke-width: 2; }
+      .link { fill: none; stroke: #111; stroke-width: 2; marker-end: url(#arrow); }
+      .in-link { stroke-dasharray: 8 6; }
+      .guide { fill: none; stroke: #777; stroke-width: 1.5; }
+    </style>
+  </defs>
+
+  <text x="180" y="42" text-anchor="middle" class="title">有向图</text>
+  <text x="780" y="42" text-anchor="middle" class="title">十字链表</text>
+
+  <!-- Directed graph. -->
+  <path d="M 142 143 Q 215 88 278 146" class="link"/>
+  <path d="M 128 172 Q 165 278 199 355" class="link"/>
+  <path d="M 286 174 Q 252 276 217 355" class="link"/>
+  <path d="M 184 374 Q 72 320 105 183" class="link"/>
+  <circle cx="120" cy="160" r="31" class="shape"/>
+  <circle cx="300" cy="160" r="31" class="shape"/>
+  <circle cx="210" cy="385" r="31" class="shape"/>
+  <text x="120" y="168" text-anchor="middle" class="label">A</text>
+  <text x="300" y="168" text-anchor="middle" class="label">B</text>
+  <text x="210" y="393" text-anchor="middle" class="label">C</text>
+  <text x="206" y="106" text-anchor="middle" class="small">eAB</text>
+  <text x="135" y="273" text-anchor="middle" class="small">eAC</text>
+  <text x="282" y="273" text-anchor="middle" class="small">eBC</text>
+  <text x="91" y="290" text-anchor="middle" class="small">eCA</text>
+
+  <!-- Vertex records. -->
+  <text x="460" y="82" class="label" font-weight="600">顶点结点</text>
+  <g transform="translate(460 98)">
+    <rect width="650" height="42" class="shape"/>
+    <path d="M 100 0 V 168 M 370 0 V 168" class="guide"/>
+    <path d="M 0 42 H 650 M 0 84 H 650 M 0 126 H 650" class="guide"/>
+    <text x="50" y="28" text-anchor="middle" class="field" font-weight="600">data</text>
+    <text x="235" y="28" text-anchor="middle" class="field" font-weight="600">firstin</text>
+    <text x="510" y="28" text-anchor="middle" class="field" font-weight="600">firstout</text>
+    <text x="50" y="70" text-anchor="middle" class="field">A</text>
+    <text x="235" y="70" text-anchor="middle" class="field">eCA</text>
+    <text x="510" y="70" text-anchor="middle" class="field">eAB</text>
+    <text x="50" y="112" text-anchor="middle" class="field">B</text>
+    <text x="235" y="112" text-anchor="middle" class="field">eAB</text>
+    <text x="510" y="112" text-anchor="middle" class="field">eBC</text>
+    <text x="50" y="154" text-anchor="middle" class="field">C</text>
+    <text x="235" y="154" text-anchor="middle" class="field">eAC</text>
+    <text x="510" y="154" text-anchor="middle" class="field">eCA</text>
+  </g>
+
+  <!-- Arc records. Each record belongs to one solid chain and one dashed chain. -->
+  <text x="460" y="310" class="label" font-weight="600">弧结点</text>
+  <g transform="translate(460 326)">
+    <rect width="650" height="210" class="shape"/>
+    <path d="M 110 0 V 210 M 245 0 V 210 M 380 0 V 210 M 515 0 V 210" class="guide"/>
+    <path d="M 0 42 H 650 M 0 84 H 650 M 0 126 H 650 M 0 168 H 650" class="guide"/>
+    <text x="55" y="28" text-anchor="middle" class="field" font-weight="600">弧</text>
+    <text x="177" y="28" text-anchor="middle" class="field" font-weight="600">tailvex</text>
+    <text x="312" y="28" text-anchor="middle" class="field" font-weight="600">headvex</text>
+    <text x="447" y="28" text-anchor="middle" class="field" font-weight="600">hlink</text>
+    <text x="582" y="28" text-anchor="middle" class="field" font-weight="600">tlink</text>
+
+    <text x="55" y="70" text-anchor="middle" class="field">eAB</text><text x="177" y="70" text-anchor="middle" class="field">A</text><text x="312" y="70" text-anchor="middle" class="field">B</text><text x="447" y="70" text-anchor="middle" class="field">null</text><text x="582" y="70" text-anchor="middle" class="field">eAC</text>
+    <text x="55" y="112" text-anchor="middle" class="field">eAC</text><text x="177" y="112" text-anchor="middle" class="field">A</text><text x="312" y="112" text-anchor="middle" class="field">C</text><text x="447" y="112" text-anchor="middle" class="field">eBC</text><text x="582" y="112" text-anchor="middle" class="field">null</text>
+    <text x="55" y="154" text-anchor="middle" class="field">eBC</text><text x="177" y="154" text-anchor="middle" class="field">B</text><text x="312" y="154" text-anchor="middle" class="field">C</text><text x="447" y="154" text-anchor="middle" class="field">null</text><text x="582" y="154" text-anchor="middle" class="field">null</text>
+    <text x="55" y="196" text-anchor="middle" class="field">eCA</text><text x="177" y="196" text-anchor="middle" class="field">C</text><text x="312" y="196" text-anchor="middle" class="field">A</text><text x="447" y="196" text-anchor="middle" class="field">null</text><text x="582" y="196" text-anchor="middle" class="field">null</text>
+  </g>
+
+  <!-- Show one outgoing chain and one incoming chain. -->
+  <text x="460" y="579" class="small">A 的出弧链</text>
+  <rect x="600" y="554" width="86" height="36" rx="18" class="shape"/>
+  <text x="643" y="578" text-anchor="middle" class="field">eAB</text>
+  <path d="M 688 572 H 768" class="link"/>
+  <rect x="780" y="554" width="86" height="36" rx="18" class="shape"/>
+  <text x="823" y="578" text-anchor="middle" class="field">eAC</text>
+  <path d="M 868 572 H 948" class="link"/>
+  <text x="967" y="579" class="field">null</text>
+
+  <text x="460" y="636" class="small">C 的入弧链</text>
+  <rect x="600" y="611" width="86" height="36" rx="18" class="shape"/>
+  <text x="643" y="635" text-anchor="middle" class="field">eAC</text>
+  <path d="M 688 629 H 768" class="link in-link"/>
+  <rect x="780" y="611" width="86" height="36" rx="18" class="shape"/>
+  <text x="823" y="635" text-anchor="middle" class="field">eBC</text>
+  <path d="M 868 629 H 948" class="link in-link"/>
+  <text x="967" y="636" class="field">null</text>
+</svg>

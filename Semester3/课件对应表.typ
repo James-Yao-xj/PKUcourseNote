@@ -113,6 +113,10 @@ Lesson6/Lesson6.typ
 
 Lesson3/Lesson3.typ 的课堂测验；Lesson4/Lesson4.typ
 
+*2026 年 10 月 28 日新增《图》课堂笔记*
+
+graph/graph.typ：十字链表、BFS 与 DFS 拓扑排序、Dijkstra 及最短路径问题；原图保存在 graph/assets 中。
+
 *202609\_ADS\_W02\_VM\_Shell\_DevEnv.pptx*
 
 DevEnvironment.typ

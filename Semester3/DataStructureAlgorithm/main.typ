@@ -6,4 +6,6 @@
 #pagebreak(weak: true)
 #include "Lesson6/Lesson6.typ"
 #pagebreak(weak: true)
+#include "graph/graph.typ"
+#pagebreak(weak: true)
 #include "DevEnvironment.typ"
